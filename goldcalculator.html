@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculate Gold Price</title>
+	<script type="text/javascript" src="vue.min.js"></script>
+</head>
+<body>
+	<div id="gold">
+		<h1>Calculation Of Gold Price</h1>
+		Gram:<input v-model="gram"><br><br>
+		Current Gold Price:<input v-model="price"><br><br>
+		<button v-on:click="calculate">Calculate</button><br><br>
+		Kyat:{{kyat}}<br><br>
+		Pae:{{pae}}<br><br>
+		Yway:{{yway}}<br><br>
+		Total:{{total}}
+	</div>
+	<script type="text/javascript">
+		var gold = new Vue({
+			el: '#gold',
+			data: {
+				gram:'0',
+				price:'0',
+				kyat:'',
+				pae:'',
+				yway:'',
+				total:''
+			},
+			methods: {
+				calculate: function () {
+					this.kyat=parseInt(this.gram/16.606);
+
+					var p=(this.gram/16.606)-(this.kyat);
+					this.pae=Math.round(p*16);
+
+					var y=(p*16)-this.pae;
+					this.yway=(y*8).toFixed(2);
+
+					this.total=(this.kyat*this.price)+(this.pae*(this.price/16))+(this.yway*(this.price/128));
+				}
+			}
+		})
+	</script>
+</body>
+</html>

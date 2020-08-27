@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue JS</title>
+	<script type="text/javascript" src="vue.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h2>Bitcoin Price Index</h2>
+		<ul type="none">
+			<li v-for="bpi in message">{{bpi.description}}:
+				<span class="lighten">
+					<span v-html="bpi.symbol"></span>{{ bpi.rate_float | currencydecimal }}
+				</span>
+			</li>
+		</ul>
+		<button v-on:click="getData">Click Btn</button>
+	</div>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				message: ''
+			},
+			methods:{
+				getData:function () {
+				// 	console.log('Hello getData Function');
+				axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+				.then(res=> (this.message=res.data.bpi));
+			}
+		},
+		filters: {
+			currencydecimal (value) {
+				return value.toFixed(2)
+			}
+		}
+	})
+</script>
+</body>
+</html>
